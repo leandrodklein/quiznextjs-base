@@ -1,9 +1,13 @@
-import styled from 'styled-components'
-import db from '../db.json'
-import Widget from '../src/components/Widget'
-import QuizBackground from '../src/components/QuizBackground'
-import Footer from '../src/components/Footer'
-import GitHubCorner from '../src/components/GitHubCorner'
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+
+import db from '../db.json';
+import Widget from '../src/components/Widget';
+import QuizBackground from '../src/components/QuizBackground';
+import Footer from '../src/components/Footer';
+import GitHubCorner from '../src/components/GitHubCorner';
 
 // const BackgroundImage = styled.div`
 //  background-image: url(${db.bg});
@@ -24,17 +28,37 @@ export const QuizContainer = styled.div`
 `;
 
 export default function Home() {
+  const router = useRouter();
+  const [name, setName] = React.useState('');
+
   return (
     <QuizBackground backgroundImage={db.bg}>
+      <Head>
+        <title>Quiz with Nextjs</title>
+      </Head>
       <QuizContainer>
         <Widget>
           <Widget.Header>
             <h1>The legend of zelda</h1>
           </Widget.Header>
           <Widget.Content>
-            <p>lorem ipsum dolor sit amet...</p>
-          </Widget.Content>
-          
+            <form onSubmit={function (infosDoEvento) {
+              infosDoEvento.preventDefault();                            
+              router.push(`/quiz?name=${name}`);
+            }}            
+            >
+              <input
+                onChange={function (infosDoEvento) {
+                  setName(infosDoEvento.target.value);
+                }}
+              placeholder="Digite um nome" 
+              />
+              <button type="submit" disabled={name.length === 0}>
+                Jogar 
+                {name}
+              </button>
+            </form>            
+          </Widget.Content>          
         </Widget>
         <Widget>
           <Widget.Content>
