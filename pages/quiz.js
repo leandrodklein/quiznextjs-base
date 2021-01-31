@@ -26,6 +26,7 @@ function QuestionWiget({
     questionIndex,
     onSubmit,
  }) {
+    const [selectedAlternative, setSelectedAlternative] = React.useState(undefined);
     const questionId = `question__${questionIndex}`;
     return (
             <Widget>
@@ -63,13 +64,15 @@ function QuestionWiget({
                     
                     return (
                         <Widget.Topic
-                            as="label"
+                                as="label"
+                                key={alternativeId}
                                 htmlFor={alternativeId}
                             >                            
                             <input 
                                 // style={{ display: 'none' }}
                                 id={alternativeId}
                                 name={questionId}
+                                onChange={() => setSelectedAlternative(alternativeIndex)}
                                 type="radio"
                             />
                             {alternative}
@@ -81,6 +84,9 @@ function QuestionWiget({
                     <Button type="submit">
                         Confirmar
                     </Button>
+
+                    <p>Você acertou!</p>
+                    <p>Você errou!</p>
                 </form>
             </Widget.Content>
         </Widget>
